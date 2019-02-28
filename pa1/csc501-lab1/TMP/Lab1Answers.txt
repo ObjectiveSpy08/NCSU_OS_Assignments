@@ -1,0 +1,44 @@
+1.
+Aging Scheduler:
+
+- Disadvantages
+    - Theoretically, starvation can still occur if new higher priority processes keep getting added to ready queue.
+    - Have to be careful about not accidentally incrementing the priority of NULL process.
+
+- Advantages
+    - Simple desgin and implementation
+    - Reduces chances of starvation .
+    
+Linux like scheduler
+
+- Disadvantages:
+    - It is possible for a CPU bound process has to give up CPU as its quantum gets over.
+    - New processes created in the middle of an epoch will wait till the next epoch.
+    - This can only be used at static equal priority to use a dynamic priority. Separate real time scheduler would have to be used for real time processes.
+    - Average waiting times could increase if there are a large number of processes.
+    
+- Advantages:
+    - A more fairer scheduling policy where every runnable process gets some CPU in an epoch and thus no starvation.
+    - Process that could not use their quantum in prevoius epochs get more ticks in subsequent epochs. This incentivizes process to reduces cycle consumption. 
+    
+XINU default scheduler
+
+- Disadvantage:
+    - Starvation is possible for lower priority processes.
+    - Larger than optimal quantum maybe to assigned to processes. Performance also depends on time qunatum length.
+- Advantages:
+    - Higher priority processes always get to finish first.
+    - Simple design and implementation.
+    
+2.
+Aging scheduler:
+- This scheduler skips over the NULL process when incrementing priorities. 
+- Only when no other process is left to be assigned, is the NULL process executed.
+
+Linux like scheduler:
+- This scheduler keeps the goodness value of the null process as 0 thus allowing it to run on CPU only when there is no other process to run.
+- This scheduler too skips over the NULL process when calculating max goodness.
+
+3.
+- We could put a max cap on the priority of any process. That way starvation could be avoided if there are higher priority process being added as then at max cap, we will do a round-robin.
+- Instead on a linear increase, we could increase priority of process in proportion to their waiting times. This way we reduce the possibility of starvation.
