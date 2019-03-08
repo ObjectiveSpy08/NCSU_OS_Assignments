@@ -1,0 +1,70 @@
+./sys/chprio.c:24:	pptr->pprio = newprio;
+./sys/create.c:50:	pptr->fildes[0] = 0;	/* stdin set to console */
+./sys/create.c:51:	pptr->fildes[1] = 0;	/* stdout set to console */
+./sys/create.c:52:	pptr->fildes[2] = 0;	/* stderr set to console */
+./sys/create.c:55:		pptr->fildes[i] = FDFREE;
+./sys/create.c:57:	pptr->pstate = PRSUSP;
+./sys/create.c:58:	for (i=0 ; i<PNMLEN && (int)(pptr->pname[i]=name[i])!=0 ; i++)
+./sys/create.c:60:	pptr->pprio = priority;
+./sys/create.c:61:	pptr->pbase = (long) saddr;
+./sys/create.c:62:	pptr->pstklen = ssize;
+./sys/create.c:63:	pptr->psem = 0;
+./sys/create.c:64:	pptr->phasmsg = FALSE;
+./sys/create.c:65:	pptr->plimit = pptr->pbase - ssize + sizeof (long);	
+./sys/create.c:66:	pptr->pirmask[0] = 0;
+./sys/create.c:67:	pptr->pnxtkin = BADPID;
+./sys/create.c:68:	pptr->pdevs[0] = pptr->pdevs[1] = pptr->ppagedev = BADDEV;
+./sys/create.c:75:	pptr->pargs = nargs;
+./sys/create.c:81:	*--saddr = pptr->paddr = (long)procaddr; /* where we "ret" to	*/
+./sys/create.c:97:	*pushsp = pptr->pesp = (unsigned long)saddr;
+./sys/getprio.c:23:	return(pptr->pprio);
+./sys/kill.c:30:	dev = pptr->pdevs[0];
+./sys/kill.c:33:	dev = pptr->pdevs[1];
+./sys/kill.c:36:	dev = pptr->ppagedev;
+./sys/kill.c:40:	send(pptr->pnxtkin, pid);
+./sys/kill.c:42:	freestk(pptr->pbase, pptr->pstklen);
+./sys/kill.c:43:	switch (pptr->pstate) {
+./sys/kill.c:45:	case PRCURR:	pptr->pstate = PRFREE;	/* suicide */
+./sys/kill.c:48:	case PRWAIT:	semaph[pptr->psem].semcnt++;
+./sys/kill.c:51:			pptr->pstate = PRFREE;
+./sys/kill.c:57:	default:	pptr->pstate = PRFREE;
+./sys/ready.c:19:	pptr->pstate = PRREADY;
+./sys/ready.c:20:	insert(pid,rdyhead,pptr->pprio);
+./sys/receive.c:20:	if ( !pptr->phasmsg ) {		/* if no message, wait for one	*/
+./sys/receive.c:21:		pptr->pstate = PRRECV;
+./sys/receive.c:24:	msg = pptr->pmsg;		/* retrieve message		*/
+./sys/receive.c:25:	pptr->phasmsg = FALSE;
+./sys/recvtim.c:24:	if ( !pptr->phasmsg ) {		/* if no message, wait		*/
+./sys/recvtim.c:28:	        pptr->pstate = PRTRECV;
+./sys/recvtim.c:31:	if ( pptr->phasmsg ) {
+./sys/recvtim.c:32:		msg = pptr->pmsg;	/* msg. arrived => retrieve it	*/
+./sys/recvtim.c:33:		pptr->phasmsg = FALSE;
+./sys/resume.c:23:	prio = pptr->pprio;
+./sys/send.c:19:	   || pptr->phasmsg != 0) {
+./sys/send.c:23:	pptr->pmsg = msg;
+./sys/send.c:24:	pptr->phasmsg = TRUE;
+./sys/send.c:25:	if (pptr->pstate == PRRECV)	/* if receiver waits, start it	*/
+./sys/send.c:27:	else if (pptr->pstate == PRTRECV) {
+./sys/setnok.c:23:	pptr->pnxtkin = nok;
+./sys/suspend.c:21:	 ((pptr= &proctab[pid])->pstate!=PRCURR && pptr->pstate!=PRREADY)) {
+./sys/suspend.c:25:	if (pptr->pstate == PRREADY) {
+./sys/suspend.c:26:		pptr->pstate = PRSUSP;
+./sys/suspend.c:30:		pptr->pstate = PRSUSP;
+./sys/suspend.c:33:	prio = pptr->pprio;
+./sys/unsleep.c:25:	     pptr->pstate != PRTRECV) ) {
+./sys/wait.c:28:		pptr->psem = sem;
+./sys/wait.c:30:		pptr->pwaitret = OK;
+./sys/wait.c:33:		return pptr->pwaitret;
+Binary file ./sys/.lock.c.swp matches
+./sys/initialize.c:166:	pptr->pstate = PRCURR;
+./sys/initialize.c:168:		pptr->pname[j] = "prnull"[j];
+./sys/initialize.c:169:	pptr->plimit = (WORD)(maxaddr + 1) - NULLSTK;
+./sys/initialize.c:170:	pptr->pbase = (WORD) maxaddr - 3;
+./sys/initialize.c:171:	pptr->pesp = pptr->pbase-4;	/* for stkchk; rewritten before used */
+./sys/initialize.c:172:	*( (int *)pptr->pbase ) = MAGIC;
+./sys/initialize.c:173:	pptr->paddr = (WORD) nulluser;
+./sys/initialize.c:174:	pptr->pargs = 0;
+./sys/initialize.c:175:	pptr->pprio = 0;
+./sys/lock.c:28:		pptr->psem = sem;
+./sys/lock.c:30:		pptr->pwaitret = OK;
+./sys/lock.c:33:		return pptr->pwaitret;

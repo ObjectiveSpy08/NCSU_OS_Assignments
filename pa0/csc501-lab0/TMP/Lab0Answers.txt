@@ -1,0 +1,71 @@
+Q1: Assuming the XINU text begins at address 0x0, draw a rough diagram of XINU’s memory layout with addresses derived from your experimental measurements. Include the information you uncovered from running your version of printsegaddress() and printprocstks().
+
+Answer1:
+
+Based on information received from the two functions and the theory mentioned in "Operating System Desing - The Xinu approach" (Page 158), here's the memory layout:
+
+
+|       text        |       data        |       bss        |           Free space           |       Process [main] stack        |       free space      |        Process [prnull] stack       |
+0x00000000          0x0001d3b8          0x0002253c          0x0002abd4                      0x00ffdffc                          0x00ffeff8              0x00fff000                            0x00fffffc
+(Address)
+
+=============================================================================================================================================================================================================
+
+
+Q2: What is the difference in stack top address before and after calling printtos() ? Draw a diagram to illustrate what are the contents of the items pushed into the stack between these two time points.
+
+Answer2:
+Reference: https://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/
+
+Before [0x00ffefbc]: 0x00015831
+After  [0x00ffefb8]: 0x00ffefec
+
+                 _______________________________________
+                |                                       |
+0x00ffefbc      |           Return address              |
+                |_______________________________________|
+                |                                       |
+0x00ffefb8      |   Saved ebp(of previous stack frame)  | <--------- EBP, ESP(top of stack)
+                |_______________________________________|
+
+=============================================================================================================================================================================================================
+
+Q3: Which byte order is adopted in the host machine that we are using ? How did you find out ?
+
+Answer3:
+It is set in the specifications in the Configuration file under compile directory.
+
+=============================================================================================================================================================================================================
+
+Q4: Briefly describe the mov, push, pusha, pop, and popa instructions in the x86.
+
+Answer4:
+Reference: Intel IA-32 Architecture Software Developer manual.
+
+mov: This instruction moves data between memory and registers and within registers. This instruciton can't move data directly between 2 memory location or between 2 segment registers.
+On the AT&T architecture, syntax is: mov source, destination.
+On the Intel architecture, syntax is: mov destiantion, source.
+
+push: This instruction decrements the stack pointer - ESP(as the stack grows downwards) and copies its operand's value to the new top of stack.
+Syntax is: push operand
+
+pusha: This instruction copies the values of all the general purpose registers(8 for Intel-IA32) to the stack. For the intel architecture, the order is EAX, ECX, EDX, EBX, the initial value of ESP before EAX was pushed, EBP, ESI, and EDI. For 16-bit architecture the order will be AX, CX, DX, BX, SP, BP, SI, DI. This instruction allows for lowering the number of instructions to save the regiter values.
+Syntax is: pusha
+
+pop: This instruction copies the value at the current top of stack to the destination specified by its operand and then increments the stack pointer(ESP). The detination can be a general-purpose/segment register or a memory location.
+Syntax is: pop operand
+
+popa: This instruction pops the top 8 values from the stack-top and copies them to the general purpose registers in the order: 
+ - 32-bit: EDI, ESI, EBP, ignore doubleword, EBX, EDX, ECX, and EAX. 
+ - 16-bit: DI, SI, BP, ignore word, BX, DX, CX, and AX.
+This instruction, like pusha, reduces the number of instructions.
+Syntax is: popa
+
+============================================================================================================================================================================================================
+
+Q5: In a stack frame, local variables are stored below the top of the stack. In task 3, does your result show all the local variables declared in your printtos function? If not, can you explain that? (hint: try to disable the compiler optimization by specifing -O0 in your Makefile)
+
+Answer5:
+The compiler optimization is already turned off in the Makefile and the local variables do show up on the stack. With the compiler optimization turned on however, (also I anyway had the register keyword in my code), the "esp" has a different value to account for the variables being moved to registers.
+
+

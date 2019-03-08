@@ -3,7 +3,7 @@
 #
 
 INCLUDE = -I../h
-CFLAGS  = -m32 -march=i586 -fno-builtin -c -O3 -Wall ${DEFS} ${INCLUDE}
+CFLAGS  = -m32 -march=i586 -fno-builtin -c -O0 -Wall ${DEFS} ${INCLUDE}
 SDEFS	= -I../h
 ASFLAGS = --32
 
@@ -415,8 +415,7 @@ printsegaddress.o: ../sys/printsegaddress.c /usr/include/stdc-predef.h \
 printsyscallsummary.o: ../sys/printsyscallsummary.c \
  /usr/include/stdc-predef.h ../h/conf.h ../h/stdio.h ../h/kernel.h \
  ../h/systypes.h ../h/mem.h ../h/proc.h
-printtos.o: ../sys/printtos.c /usr/include/stdc-predef.h ../h/stdio.h \
- ../h/kernel.h ../h/systypes.h ../h/conf.h ../h/mem.h
+printtos.o: ../sys/printtos.c /usr/include/stdc-predef.h ../h/stdio.h
 putc.o: ../sys/putc.c /usr/include/stdc-predef.h ../h/conf.h \
  ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/io.h
 queue.o: ../sys/queue.c /usr/include/stdc-predef.h ../h/conf.h \
